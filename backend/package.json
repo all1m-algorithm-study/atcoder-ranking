@@ -1,0 +1,21 @@
+{
+  "name": "atcoder-ranking-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "start": "nodemon --watch . ./index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/koa": "^2.13.4",
+    "@types/koa-router": "^7.4.4",
+    "dotenv": "^10.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.1",
+    "koa-router": "^10.0.0",
+    "mongoose": "^5.13.3",
+    "mongoose-sequence": "^5.3.1"
+  }
+}
