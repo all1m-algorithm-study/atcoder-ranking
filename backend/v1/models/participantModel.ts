@@ -1,45 +1,22 @@
-import Mongoose from "mongoose";
+import { IParticipant } from "../types";
 import { Model, Document, Schema, model } from "mongoose"
-/*eslint-disable */
-const AutoIncrement = require("mongoose-sequence")(Mongoose);
-/*eslint-enable */
 
-export interface IContestHistory extends Document {
-    date: Date,
-    title: string,
-    rank: number,
-    performance: number,
-    newRating: number,
-    diff: number
-}
-
-export const ContestHistorySchemaDef = {
+const ContestHistorySchemaDef = {
     date: Date,
     title: String,
     rank: Number,
     performance: Number,
     newRating: Number,
-    diff: Number
+    diff: String
 }
 
-export interface IParticipant extends Document {
-    docId: number,
-    handle: string,
-    nickname: string,
-    name: string,
-    history: IContestHistory[]
-}
+export interface IParticipantDocument extends Document, IParticipant { }
 
 const participantSchema = new Schema({
-    docId: {
-        type: Number,
-        unique: true
-    },
     handle: String,
     nickname: String,
     name: String,
     history: [ContestHistorySchemaDef]
 });
 
-participantSchema.plugin(AutoIncrement, { inc_field: "docId" });
-export const ParticipantModel:Model<IParticipant> = model("Participant", participantSchema);
+export const ParticipantModel:Model<IParticipantDocument> = model("Participant", participantSchema);

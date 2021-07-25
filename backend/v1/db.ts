@@ -21,12 +21,14 @@ interface ICollectionInfo {
 async function connectDB() {
     const mongoURI = env.mongoURI;
 
-    mongoose.connect(mongoURI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false,
-        useCreateIndex: true,
-    }).then(async () => {
+    try {
+        await mongoose.connect(mongoURI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useFindAndModify: false,
+            useCreateIndex: true,
+        });
+
         const collections = await mongoose.connection.db.listCollections().toArray();
         
         let exist = collections.findIndex((coll: ICollectionInfo) => coll.name === "Event");
@@ -36,13 +38,13 @@ async function connectDB() {
 
         exist = collections.findIndex((coll: ICollectionInfo) => coll.name === "Participants");
         if (exist === -1) {
-            await mongoose.connection.db.createCollection("Files");
+            await mongoose.connection.db.createCollection("Participants");
         }
 
         console.log('Database is online.');
-    }).catch((e: Error) => {
-        throw e;
-    });
+    } catch (err) {
+        throw err;
+    }
 }
 
 async function prepareDB(): Promise<void> {
