@@ -19,6 +19,7 @@ export interface IParticipant {
     handle: string,
     nickname: string,
     name: string,
+    avatar: string,
     history: IContestHistory[]
 }
 

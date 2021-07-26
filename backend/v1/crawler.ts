@@ -4,6 +4,22 @@ import { IContestHistory } from "./types";
 import { ParticipantModel, IParticipantDocument } from "./models/participantModel";
 import { EventModel, IEventDocument } from "./models/eventModel";
 
+async function getAvatarSource(handle: string): Promise<string | undefined> {
+    try {
+        const html = await axios.get(`https://atcoder.jp/users/${handle}`);
+        const $ = cheerio.load(html.data);
+        const src = $(".avatar").attr().src;
+        if (src.substring(0, 5) === "https") {
+            return src;
+        } else {
+            return "https:" + src;
+        }
+    } catch (error) {
+        console.error(error);
+        return undefined;
+    }
+}
+
 async function getHistory(handle: string): Promise<IContestHistory[] | undefined> {
     try {
         const html = await axios.get(`https://atcoder.jp/users/${handle}/history`);
@@ -30,7 +46,8 @@ async function getHistory(handle: string): Promise<IContestHistory[] | undefined
 
 async function updateSingleDocument(part: IParticipantDocument, event: IEventDocument) {
     const history = await getHistory(part.handle);
-    if (history === undefined) {
+    const avatar = await getAvatarSource(part.handle);
+    if (history === undefined || avatar === undefined) {
         console.log(`\t${part.handle}: Failed`);
     } else {
         part.history = [];
@@ -41,6 +58,7 @@ async function updateSingleDocument(part: IParticipantDocument, event: IEventDoc
                 ++added;
             }
         });
+        part.avatar = avatar;
         console.log(`\t${part.handle}: OK (${added})`);
         part.save();
     }

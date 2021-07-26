@@ -16,6 +16,7 @@ const participantSchema = new Schema({
     handle: String,
     nickname: String,
     name: String,
+    avatar: String,
     history: [ContestHistorySchemaDef]
 });
 
