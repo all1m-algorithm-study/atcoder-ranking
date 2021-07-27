@@ -14,6 +14,7 @@ router.get("/", async (ctx: Koa.Context) => {
         const newEvent = new EventModel();
         newEvent.startTime = new Date(0);
         newEvent.endTime = new Date(0);
+        newEvent.hideName = false;
         const saved = await newEvent.save();
         ctx.response.body = saved;
     } else {
@@ -28,8 +29,8 @@ router.post("/", async (ctx: Koa.Context) => {
     }
 
     const body = <IEvent>(ctx.request.body as unknown);
-    if (body.startTime === undefined || body.endTime === undefined) {
-        ctx.throw(400, "startTime or endTime is undefined.");
+    if (body.startTime === undefined || body.endTime === undefined || body.hideName === undefined) {
+        ctx.throw(400, "At least one of arguments are undefined.");
     }
 
     if (body.endTime < body.startTime) {
@@ -43,6 +44,7 @@ router.post("/", async (ctx: Koa.Context) => {
 
     toUpdate.startTime = body.startTime;
     toUpdate.endTime = body.endTime;
+    toUpdate.hideName = body.hideName;
     ctx.response.body = await toUpdate.save();
 });
 

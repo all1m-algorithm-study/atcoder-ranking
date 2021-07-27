@@ -5,7 +5,8 @@ export interface IEventDocument extends Document, IEvent { }
 
 const eventSchema = new Schema({
     startTime: Date,
-    endTime: Date
+    endTime: Date,
+    hideName: Boolean,
 })
 
 export const EventModel:Model<IEventDocument> = model("Event", eventSchema);

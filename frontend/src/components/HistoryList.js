@@ -1,7 +1,8 @@
-import { Paper, Box, Grid, Collapse, TableContainer, Table, TableBody, TablePagination, TableHead, TableCell, TableSortLabel, TableRow, IconButton, ButtonBase, Avatar, Typography } from '@material-ui/core'
+import { Paper, Box, Grid, Collapse, TableContainer, Table, TableBody, TablePagination, TableHead, TableCell, TableSortLabel, TableRow, IconButton, Avatar, Typography } from '@material-ui/core'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { useEffect, useState, Fragment } from "react";
+import { dateToString } from '../shared/DateToString';
 import "./HistoryList.scss";
 
 function compareElements(a, b, orderBy) {
@@ -79,6 +80,9 @@ function CollapsibleRow(props) {
                     <Typography variant="subtitle1">{row.name}</Typography>
                 </TableCell>
                 <TableCell>
+                    <Typography>{row.handle}</Typography>
+                </TableCell>
+                <TableCell>
                     <Typography>{row.performance}</Typography>
                 </TableCell>
                 <TableCell>
@@ -121,22 +125,22 @@ function CollapsibleRow(props) {
                                     {row.history.map((h) => (
                                         <TableRow hover>
                                             <TableCell>
-                                                <Typography>{h.date}</Typography>
+                                                <Typography variant="caption">{dateToString(h.date)}</Typography>
                                             </TableCell>
                                             <TableCell>
-                                                <Typography>{h.title}</Typography>
+                                                <Typography variant="caption">{h.title}</Typography>
                                             </TableCell>
                                             <TableCell>
-                                                <Typography>{h.rank}</Typography>
+                                                <Typography variant="caption">{h.rank}</Typography>
                                             </TableCell>
                                             <TableCell>
-                                                <Typography>{h.performance}</Typography>
+                                                <Typography variant="caption">{h.performance}</Typography>
                                             </TableCell>
                                             <TableCell>
-                                                <Typography>{h.newRating}</Typography>
+                                                <Typography variant="caption">{h.newRating}</Typography>
                                             </TableCell>
                                             <TableCell>
-                                                <Typography>{h.diff}</Typography>
+                                                <Typography variant="caption">{h.diff}</Typography>
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -170,6 +174,7 @@ function HistoryList(props) {
             newRows.push({
                 avatar: part.avatar,
                 name: (part.name === "" ? part.nickname : part.name),
+                handle: part.handle,
                 performance: maxPerformance,
                 count: part.history.length,
                 history: part.history
@@ -192,6 +197,11 @@ function HistoryList(props) {
         {
             id: "name",
             label: "참가자명",
+            allowSorting: true
+        },
+        {
+            id: "handle",
+            label: "Handle",
             allowSorting: true
         },
         {

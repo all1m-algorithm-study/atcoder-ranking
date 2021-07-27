@@ -3,7 +3,8 @@
 */
 export interface IEvent {
     startTime: Date,
-    endTime: Date
+    endTime: Date,
+    hideName: boolean
 }
 
 export interface IContestHistory {

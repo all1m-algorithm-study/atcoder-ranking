@@ -14,9 +14,11 @@ router.get("/", async (ctx: Koa.Context) => {
     const event = await EventModel.findOne().exec();
     const currDate = new Date();
 
-    if (validateToken(ctx) === undefined && (event !== null && currDate < event.endTime)) {
+    if (event?.hideName) {
         parts.forEach((part: IParticipant) => {
             part.name = "";
+            part.avatar = "https://img.atcoder.jp/assets/icon/avatar.png";
+            part.handle = "";
         });
     }
 
