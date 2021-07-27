@@ -1,0 +1,39 @@
+version: '3.8'
+
+services: 
+  atcoder-ranking-db:
+    image: mongo
+    restart: unless-stopped
+    environment: 
+      MONGO_INITDB_DATABASE: atcoder-ranking
+      MONGODB_DATA_DIR: /data/db
+      MONDODB_LOG_DIR: /dev/null
+    volumes: 
+      - type: bind
+        source: ./data/db
+        target: /data/db
+    expose:
+      - 27017
+
+  atcoder-ranking-backend:
+    build: ./backend
+    environment: 
+      PORT: 4000
+      MONGO_URI: mongodb://atcoder-ranking-db/atcoder-ranking
+      ACCESS_SECRET_KEY: YOUR_RANDOM_KEY_HERE
+      ADMIN_PASSWORD: YOUR_ADMIN_KEY_HERE
+    working_dir: /app
+    tty: true
+    expose: 
+      - 4000
+    entrypoint: ['npm', 'start']
+  
+  atcoder-ranking-frontend:
+    build: ./frontend
+    environment: 
+      REACT_APP_BACKEND_URL: http://atcoder-ranking-backend:4000
+    working_dir: /app
+    tty: true
+    expose: 
+      - 3000
+    entrypoint: ['npm', 'start']
