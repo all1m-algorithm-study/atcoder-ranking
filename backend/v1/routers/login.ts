@@ -13,7 +13,7 @@ router.use(Cookie());
 router.post("/", async (ctx: Koa.Context) => {
     const body = <ILoginRequest>(ctx.request.body as unknown);
 
-    if (body.password === undefined) {
+    if (body.password === undefined || body.password === "") {
         ctx.throw(400, "password is undefined.");
     }
 

@@ -10,10 +10,11 @@ export async function getEventInfo() {
     }
 }
 
-export async function setEventInfo(startTime, endTime) {
+export async function setEventInfo(startTime, endTime, hideName) {
     const body = {
         startTime: startTime,
-        endTime: endTime
+        endTime: endTime,
+        hideName: hideName
     };
 
     try {

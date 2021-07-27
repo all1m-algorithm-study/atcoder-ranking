@@ -1,0 +1,15 @@
+.ctr-root {
+    display: flex;
+    flex-direction: column;
+
+    .ctr-datagrid {
+        height: 500px;
+    }
+
+    .ctr-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        padding: 10px;
+    }
+}

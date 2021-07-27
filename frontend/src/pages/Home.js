@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react';
-import { ContentsPanel, HistoryList, PerformanceRanking, SteadyRanking } from '../components';
+import { useEffect, useState, Fragment } from 'react';
+import { ContentsPanel, ControlPanel, HistoryList, PerformanceRanking, SteadyRanking } from '../components';
 import { getParticipants } from '../shared/BackendCommunicator';
+import { withCookies } from 'react-cookie';
 import './Home.scss';
+import getToken from '../shared/GetToken';
 
-function Home() {
+function Home(props) {
+    const { cookies } = props;
     const [partsInfo, setPartsInfo] = useState({participants: []});
 
     useEffect(() => {
@@ -26,10 +29,20 @@ function Home() {
             </ContentsPanel>
             
             <ContentsPanel title="전체 대회 참여 기록">
-                <HistoryList participants={partsInfo.participants}></HistoryList>
+                <div className="home-list-layout">
+                    <HistoryList participants={partsInfo.participants}></HistoryList>
+                </div>
             </ContentsPanel>
+
+            {getToken(cookies) ? (
+                <ContentsPanel title="관리자용 제어판">
+                    <ControlPanel></ControlPanel>
+                </ContentsPanel>
+            ) : (
+                <Fragment/>
+            )}
         </div>
     );
 }
 
-export default Home;
+export default withCookies(Home);

@@ -3,6 +3,7 @@ import Koa from 'koa';
 import BodyParser from "koa-bodyparser"
 import { ParticipantModel } from "../models/participantModel";
 import { EventModel } from "../models/eventModel";
+import { updateHistory } from "../crawler"
 import { IParticipant, IParticipantsGetResponse, IParticipantsPostRequest } from "../types";
 import validateToken from "../auth";
 
@@ -12,9 +13,8 @@ router.use(BodyParser());
 router.get("/", async (ctx: Koa.Context) => {
     const parts = await ParticipantModel.find().exec();
     const event = await EventModel.findOne().exec();
-    const currDate = new Date();
 
-    if (event?.hideName) {
+    if (event?.hideName && !validateToken(ctx)) {
         parts.forEach((part: IParticipant) => {
             part.name = "";
             part.avatar = "https://img.atcoder.jp/assets/icon/avatar.png";
@@ -53,6 +53,7 @@ router.post("/", async (ctx: Koa.Context) => {
 
     await ParticipantModel.deleteMany().exec();
     ctx.response.body = await ParticipantModel.insertMany(body.participants);
+    updateHistory();
 });
 
 export default router;
