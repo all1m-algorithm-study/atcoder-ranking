@@ -20,12 +20,12 @@ function App() {
                             <Typography variant="subtitle1">Scoreboard</Typography>
                         </div>
                     </div>
-                </div>
 
-                <Switch>
-                    <Route path="/" component={Home}></Route>
-                    <Route path="/login" component={Login}></Route>
-                </Switch>
+                    <Switch>
+                        <Route path="/" component={Home}></Route>
+                        <Route path="/login" component={Login}></Route>
+                    </Switch>
+                </div>
             </div>
         </BrowserRouter>
     );

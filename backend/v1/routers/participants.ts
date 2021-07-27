@@ -16,7 +16,7 @@ router.get("/", async (ctx: Koa.Context) => {
 
     if (validateToken(ctx) === undefined && (event !== null && currDate < event.endTime)) {
         parts.forEach((part: IParticipant) => {
-            part.name = "-";
+            part.name = "";
         });
     }
 

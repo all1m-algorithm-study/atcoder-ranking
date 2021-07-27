@@ -1,0 +1,13 @@
+.sr-root {
+    width: 100%;
+}
+
+.sr-avatar-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .sr-avatar {
+        margin-right: 20px;
+    }
+}

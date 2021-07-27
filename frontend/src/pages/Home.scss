@@ -1,0 +1,27 @@
+.home-root {
+    width: 100%;
+}
+
+.home-rankings-layout {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    & > * {
+        margin: 0 5px 0 5px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .home-rankings-layout {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    
+        & > * {
+            margin: 5px 5px 5px 5px;
+        }
+    }
+}

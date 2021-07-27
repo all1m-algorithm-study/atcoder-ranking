@@ -1,0 +1,13 @@
+.pr-root {
+    width: 100%;
+}
+
+.pr-avatar-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .pr-avatar {
+        margin-right: 20px;
+    }
+}
