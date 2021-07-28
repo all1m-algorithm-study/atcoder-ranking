@@ -22,6 +22,7 @@ services:
       MONGO_URI: mongodb://atcoder-ranking-db/atcoder-ranking
       ACCESS_SECRET_KEY: YOUR_RANDOM_KEY_HERE
       ADMIN_PASSWORD: YOUR_ADMIN_KEY_HERE
+      CLIENT_HOST: http://atcoder-ranking-frontend:3000
     working_dir: /app
     tty: true
     expose: 
