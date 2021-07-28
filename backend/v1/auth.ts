@@ -14,7 +14,7 @@ export default function validateToken(ctx: Koa.Context): ITokenData | undefined 
             authDate: decoded.authDate
         };
         const freshToken = jwt.sign(tokenData, env.accessTokenKey, { expiresIn: "3h" });
-        ctx.cookies.set("access_token", freshToken, { httpOnly: false });
+        ctx.cookies.set("access_token", freshToken, { httpOnly: false, path: "/" });
 
         return tokenData;
     } catch (err) {

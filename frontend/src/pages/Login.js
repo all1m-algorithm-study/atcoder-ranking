@@ -56,7 +56,7 @@ function Login(props) {
                 <Typography variant="h4" align="center" paragraph>Admin Login</Typography>
                 <Divider></Divider>
                 <TextField required type="password" label="비밀번호" onChange={changePassword} onKeyPress={handleKeyPress} value={password}></TextField>
-                <Button>{buttonText}</Button>
+                <Button onClick={requestLogin}>{buttonText}</Button>
             </Paper>
         </div>
     );
