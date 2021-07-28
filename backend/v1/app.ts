@@ -8,11 +8,12 @@ import event from "./routers/event";
 import participants from "./routers/participants";
 import login from "./routers/login";
 import logout from "./routers/logout";
+import env from "../env";
 
 const app = new Koa();
 
 const corsOption = {
-    origin: "http://localhost:3000",
+    origin: env.clientHost,
     credentials: true
 };
 
