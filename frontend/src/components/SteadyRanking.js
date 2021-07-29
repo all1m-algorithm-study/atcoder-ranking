@@ -55,7 +55,7 @@ function SteadyRanking(props) {
     return (
         <Paper className="sr-root" elevation={6}>
             <Toolbar>
-                <Typography variant="h5">🧋 참가 횟수</Typography>
+                <Typography variant="h5">🍹 참가 횟수</Typography>
             </Toolbar>
             <TableContainer>
                 <Table>
