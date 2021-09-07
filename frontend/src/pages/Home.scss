@@ -1,32 +1,30 @@
 .home-root {
+    display: flex;
+    flex-direction: column;
     width: 100%;
 }
 
 .home-rankings-layout {
     width: 100%;
     display: flex;
-    flex-direction: row;
     justify-content: space-around;
+    flex-wrap: wrap;
 
     & > * {
-        margin: 0 5px 0 5px;
+        flex-grow: 1;
+    }
+    & > *:first-child {
+        margin: 10px;
+    }
+    & > *:last-child {
+        margin: 10px;
     }
 }
 
 .home-list-layout {
-    margin-left: 5px;
-    margin-right: 5px;
+    margin: 10px;
 }
 
-@media screen and (max-width: 768px) {
-    .home-rankings-layout {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-    
-        & > * {
-            margin: 5px 5px 5px 5px;
-        }
-    }
+.home-ctr-layout {
+    margin: 10px;
 }

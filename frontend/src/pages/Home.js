@@ -36,7 +36,9 @@ function Home(props) {
 
             {getToken(cookies) ? (
                 <ContentsPanel title="관리자용 제어판">
-                    <ControlPanel></ControlPanel>
+                    <div className="home-ctr-layout">
+                        <ControlPanel></ControlPanel>
+                    </div>
                 </ContentsPanel>
             ) : (
                 <Fragment/>
