@@ -1,0 +1,81 @@
+version: '3.8'
+
+services: 
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    volumes:
+      - conf:/etc/nginx/conf.d
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - dhparam:/etc/nginx/dhparam
+      - /srv/nginx/certs:/etc/nginx/certs:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    ports:
+      - 80:80
+      - 443:443
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt
+    depends_on:
+      - nginx-proxy
+    volumes:
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - dhparam:/etc/nginx/dhparam:ro
+      - /srv/nginx/certs:/etc/nginx/certs
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - acme:/etc/acme.sh
+    environment:
+      - DEFAULT_EMAIL={MAINTAINER_EMAIL}
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+
+  atcoder-ranking-db:
+    image: mongo
+    restart: unless-stopped
+    environment: 
+      MONGO_INITDB_DATABASE: atcoder-ranking
+      MONGODB_DATA_DIR: /data/db
+      MONDODB_LOG_DIR: /dev/null
+    volumes: 
+      - type: bind
+        source: ./data/db
+        target: /data/db
+    expose:
+      - 27017
+
+  atcoder-ranking-backend:
+    build: ./backend
+    environment: 
+      PORT: 4000
+      MONGO_URI: mongodb://atcoder-ranking-db/atcoder-ranking
+      ACCESS_SECRET_KEY: {RANDOM_KEY}
+      ADMIN_PASSWORD: {ADMIN_KEY_HERE}
+      CLIENT_HOST: {FRONTEND_HOST}
+      VIRTUAL_HOST: {BACKEND_HOST}
+      LETSENCRYPT_HOST: {BACKEND_HOST}
+    working_dir: /app
+    tty: true
+    expose: 
+      - 4000
+    entrypoint: ['npm', 'start']
+  
+  atcoder-ranking-frontend:
+    build: ./frontend
+    environment: 
+      REACT_APP_BACKEND_URL: {BACKEND_HOST}
+      VIRTUAL_HOST: {FRONTEND_HOST}
+      LETSENCRYPT_HOST: {FRONTEND_HOST}
+    working_dir: /app
+    tty: true
+    expose: 
+      - 3000
+    entrypoint: ['npm', 'start']
+
+volumes:
+  conf:
+  vhost:
+  html:
+  dhparam:
+  acme:
