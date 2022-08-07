@@ -28,14 +28,23 @@ async function getHistory(handle: string): Promise<IContestHistory[] | undefined
         const $rows = $("tbody").children("tr");
 
         $rows.each((_, elem) => {
-            historyList.push({
+            let fetched = {
                 date: new Date($(elem).find("td:nth-child(1) time").text()),
                 title: $(elem).find("td:nth-child(2) a:first-child").text(),
-                rank: Number($(elem).find("td:nth-child(3) a").text()),
-                performance: Number($(elem).find("td:nth-child(4)").text()),
-                newRating: Number($(elem).find("td:nth-child(5) span").text()),
+                rank: $(elem).find("td:nth-child(3) a").text(),
+                performance: $(elem).find("td:nth-child(4)").text(),
+                newRating: $(elem).find("td:nth-child(5) span").text(),
                 diff: $(elem).find("td:nth-child(6)").text()
-            });
+            };
+
+            if (!isNaN(Number(fetched.rank)) && !isNaN(Number(fetched.performance)) && !isNaN(Number(fetched.newRating))) {
+                historyList.push({
+                    ...fetched,
+                    rank: Number(fetched.rank),
+                    performance: Number(fetched.performance),
+                    newRating: Number(fetched.newRating)
+                });
+            }
         });
         return historyList;
     } catch (error) {
