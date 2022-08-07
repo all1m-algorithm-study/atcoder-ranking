@@ -9,4 +9,4 @@ const eventSchema = new Schema({
     hideName: Boolean,
 })
 
-export const EventModel:Model<IEventDocument> = model("Event", eventSchema);
+export const EventModel = model<IEvent>("Event", eventSchema);

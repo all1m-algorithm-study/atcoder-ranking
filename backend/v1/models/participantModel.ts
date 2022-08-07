@@ -20,4 +20,4 @@ const participantSchema = new Schema({
     history: [ContestHistorySchemaDef]
 });
 
-export const ParticipantModel:Model<IParticipantDocument> = model("Participant", participantSchema);
+export const ParticipantModel = model<IParticipant>("Participant", participantSchema);
