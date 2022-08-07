@@ -2,7 +2,7 @@ FROM node:14
 
 RUN mkdir -p /app
 WORKDIR /app
-COPY package.json .
+COPY package.json package-lock.json ./
 RUN npm install --no-cache
 RUN npm install -g nodemon
 RUN npm install -g typescript
